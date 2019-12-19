@@ -17,6 +17,7 @@ List<Middleware<AppState>> createMovieModelMiddleware([
   final deleteMovieModel = _createDeleteMovieModel(_repository);
 
   return [
+
     TypedMiddleware<AppState, GetMovieModelAction>(getMovieModel),
     TypedMiddleware<AppState, GetMovieModelsAction>(getMovieModels),
     TypedMiddleware<AppState, CreateMovieModelAction>(createMovieModel),
@@ -81,23 +82,9 @@ Middleware<AppState> _createGetMovieModels(
       print(error);
       catchError(next, action, error);
     });
-//    repositoryDB
-//        .getMovieModelsList(
-//            "id",
-//            store.state.moviemodelState.page.pageSize,
-//            store.state.moviemodelState.page.pageSize *
-//                store.state.moviemodelState.page.currPage)
-//        .then((map) {
-//      if (map.isNotEmpty) {
-//        var page = Page(currPage: store.state.moviemodelState.page.currPage + 1);
-//        next(SyncMovieModelsAction(page: page, moviemodels: map));
-//        completed(next, action);
-//      }
-//    }).catchError((error) {
-//      catchError(next, action, error);
-//    });
   };
 }
+
 
 Middleware<AppState> _createCreateMovieModel(
     MovieModelRepository repository) {

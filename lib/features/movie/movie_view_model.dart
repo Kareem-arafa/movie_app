@@ -8,6 +8,7 @@ class MovieViewModel {
   final MovieModel moviemodel;
   final List<MovieModel> moviemodels;
   final Function(bool) getMovieModels;
+  final Function(bool) getNowPlayingMovieModels;
   final ActionReport getMovieModelsReport;
 
   MovieViewModel({
@@ -15,6 +16,7 @@ class MovieViewModel {
     this.moviemodels,
     this.getMovieModels,
     this.getMovieModelsReport,
+    this.getNowPlayingMovieModels
   });
 
   static MovieViewModel fromStore(Store<AppState> store) {
@@ -22,6 +24,9 @@ class MovieViewModel {
       moviemodel: store.state.moviemodelState.moviemodel,
       moviemodels: store.state.moviemodelState.moviemodels.values.toList() ?? [],
       getMovieModels: (isRefresh) {
+        store.dispatch(GetMovieModelsAction(isRefresh: isRefresh));
+      },
+      getNowPlayingMovieModels: (isRefresh) {
         store.dispatch(GetMovieModelsAction(isRefresh: isRefresh));
       },
       getMovieModelsReport: store.state.moviemodelState.status["GetMovieModelsAction"],

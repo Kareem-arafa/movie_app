@@ -9,6 +9,12 @@ class GetMovieModelsAction {
 
   GetMovieModelsAction({this.isRefresh});
 }
+class GetNowPlayingMovieModelsAction {
+  final String actionName = "GetMovieModelsAction";
+  final bool isRefresh;
+
+  GetNowPlayingMovieModelsAction({this.isRefresh});
+}
 
 class GetMovieModelAction {
   final String actionName = "GetMovieModelAction";
@@ -30,6 +36,13 @@ class SyncMovieModelsAction {
   final List<MovieModel> moviemodels;
 
   SyncMovieModelsAction({this.page, this.moviemodels});
+}
+class SyncNowPlayingMovieModelsAction {
+  final String actionName = "SyncMovieModelsAction";
+  final Page page;
+  final List<MovieModel> moviemodels;
+
+  SyncNowPlayingMovieModelsAction({this.page, this.moviemodels});
 }
 
 class SyncMovieModelAction {

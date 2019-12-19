@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 //import 'package:movie/provider/movie_provider.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 
 class DetailScreen extends StatefulWidget {
   final posterUrl;
@@ -27,7 +26,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body:SafeArea(
         top: false,
         bottom: false,
         child: NestedScrollView(
@@ -166,6 +165,7 @@ class _DetailScreenState extends State<DetailScreen> {
         onTap: () => _openYoutube(data.results[index].key),
       );
   }*/
+/*
   _openYoutube(String videoId) async {
     try {
       await launch(
@@ -196,5 +196,105 @@ class _DetailScreenState extends State<DetailScreen> {
       debugPrint(e.toString());
     }
   }
+*/
 
 }
+
+
+/*
+SafeArea(
+top: false,
+bottom: false,
+child: NestedScrollView(
+headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+return <Widget>[
+SliverAppBar(
+expandedHeight: 200.0,
+floating: false,
+pinned: true,
+elevation: 0.0,
+flexibleSpace: FlexibleSpaceBar(
+centerTitle: true,
+title: AnimatedOpacity(
+duration: Duration(milliseconds: 300),
+opacity: 1.0,
+child: Text(
+widget.title,
+maxLines: 2,
+style: TextStyle(fontSize: 16.0),
+)),
+background: Image.network(
+"https://image.tmdb.org/t/p/w500${widget.posterUrl}",
+fit: BoxFit.cover,
+)),
+),
+];
+},
+body: Padding(
+padding: const EdgeInsets.all(10.0),
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: <Widget>[
+Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+Row(
+children: <Widget>[
+Icon(
+Icons.favorite,
+color: Colors.red,
+),
+Container(
+margin: EdgeInsets.only(left: 1.0, right: 1.0),
+),
+Text(
+widget.voteAverage,
+style: TextStyle(
+fontSize: 18.0,
+),
+),
+Container(
+margin: EdgeInsets.only(left: 10.0, right: 10.0),
+),
+Text(
+widget.releaseDate,
+style: TextStyle(
+fontSize: 18.0,
+),
+),
+],
+),
+Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+Text(
+widget.description,
+style: TextStyle(
+fontSize: 16.0,
+),
+),
+Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+Text(
+"Trailer",
+style: TextStyle(
+fontSize: 25.0,
+fontWeight: FontWeight.bold,
+),
+),
+Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
+*/
+/*FutureBuilder<TrailerModel>(
+                  future: MovieApiProvider().fetchTrailer(widget.movieId),
+                  builder: (context,snapshot){
+                     if (snapshot.hasData) {
+                      if (snapshot.data.results.length > 0)
+                        return trailerLayout(snapshot.data);
+                      else
+                        return noTrailer(snapshot.data);
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                )*//*
+
+],
+),
+),
+),
+),*/

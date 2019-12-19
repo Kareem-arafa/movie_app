@@ -20,6 +20,17 @@ class MovieModelRepository {
    //   return results;
     });
   }
+  Future<Map> getNowMovieModelsList(int page) {
+
+    return  new NetworkCommon().dio.get("now_playing", queryParameters: {
+      "page": page,
+      "api_key": _apiKey,
+    }).then((d) {
+      print(d.toString());
+      return new NetworkCommon().decodeResp(d) as Map;
+      //   return results;
+    });
+  }
 
   Future<MovieModel> createMovieModel(MovieModel moviemodel) {
     var dio = new NetworkCommon().dio;

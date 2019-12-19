@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:alice/alice.dart';
 
 
 class NetworkCommon {
@@ -38,7 +37,6 @@ class NetworkCommon {
   Dio get dio {
     Dio dio = new Dio();
     // Set default configs
-    dio.interceptors.add(Alice().getDioInterceptor());
     dio.options.baseUrl = 'http://api.themoviedb.org/3/movie/';
     dio.options.connectTimeout = 50000; //5s
     dio.options.receiveTimeout = 30000;
