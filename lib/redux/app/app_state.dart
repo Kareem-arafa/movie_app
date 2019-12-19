@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
+import 'package:movie_app/redux/topRated/topRated_state.dart';
 
 /// manage all state of this project
 /// auto add new state when using haystack plugin
@@ -9,26 +10,33 @@ import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
 class AppState {
   final MovieModelState moviemodelState;
   final NowPlayingState nowPlayingState;
+  final TopRatedState topRatedState;
 
   AppState({
     @required this.moviemodelState,
     @required this.nowPlayingState,
+    @required this.topRatedState,
   });
 
   factory AppState.initial() {
     return AppState(
-      moviemodelState: MovieModelState(
-        moviemodel: null,
-        moviemodels: Map(),
-        status: Map(),
-        page: Page(),
-      ),
-      nowPlayingState: NowPlayingState(
-        page: Page(),
-        nowplayings: Map(),
-        nowplaying: null,
-        status: Map(),
-      ),
-    );
+        moviemodelState: MovieModelState(
+          moviemodel: null,
+          moviemodels: Map(),
+          status: Map(),
+          page: Page(),
+        ),
+        nowPlayingState: NowPlayingState(
+          page: Page(),
+          nowplayings: Map(),
+          nowplaying: null,
+          status: Map(),
+        ),
+        topRatedState: TopRatedState(
+          topRateds: Map(),
+          topRated: null,
+          status: Map(),
+          page: Page(),
+        ));
   }
 }

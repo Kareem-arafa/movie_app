@@ -1,16 +1,13 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
+
 import 'package:movie_app/data/model/moviemodel_data.dart';
-import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/data/network_common.dart';
-import 'package:movie_app/features/movie/movie_view_model.dart';
 
 class MovieModelRepository {
   const MovieModelRepository();
   final _apiKey = "f55fbda0cb73b855629e676e54ab6d8e";
 
   Future<Map> getMovieModelsList(int page) {
-    print("popular?api_key=$_apiKey&page=${Page().currPage}");
     return  new NetworkCommon().dio.get("popular", queryParameters: {
       "page": page,
       "api_key": _apiKey,

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class UpComing {
+class TopRated {
   String overview;
   String originalLanguage;
   String originalTitle;
@@ -17,7 +17,7 @@ class UpComing {
   bool adult;
   int voteCount;
 
-  UpComing({
+  TopRated({
     this.overview = "",
     this.originalLanguage = "",
     this.originalTitle = "",
@@ -34,7 +34,7 @@ class UpComing {
     this.voteCount = 0,
   });
 
-  UpComing.fromJson(Map<String, dynamic>  map) :
+  TopRated.fromJson(Map<String, dynamic>  map) :
         overview = map['overview']  ?? "",
         originalLanguage = map['original_language']  ?? "",
         originalTitle = map['original_title']  ?? "",
@@ -69,7 +69,7 @@ class UpComing {
     'vote_count': voteCount,
   };
 
-  UpComing copyWith({
+  TopRated copyWith({
     String overview,
     String originalLanguage,
     String originalTitle,
@@ -85,7 +85,7 @@ class UpComing {
     bool adult,
     int voteCount,
   }) {
-    return UpComing(
+    return TopRated(
       overview: overview ?? this.overview,
       originalLanguage: originalLanguage ?? this.originalLanguage,
       originalTitle: originalTitle ?? this.originalTitle,
@@ -104,3 +104,4 @@ class UpComing {
   }
 
 }
+

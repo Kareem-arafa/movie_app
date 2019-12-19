@@ -8,6 +8,7 @@ import 'package:movie_app/features/movie/movie_view_model.dart';
 import 'package:movie_app/features/now%20playin/now%20playin_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'popular.dart';
+import 'package:movie_app/features/topRated/topRared_view.dart';
 
 class MovieView extends StatelessWidget {
   MovieView({Key key}) : super(key: key);
@@ -105,7 +106,7 @@ class _MovieViewContentState extends State<MovieViewContent> with TickerProvider
         // NowPlaying(),
           nowplayinView(),
           buildCustomScrollView(),
-          buildCustomScrollView(),
+          TopRatedView(),
         ],
         controller: _tabController,
       )
