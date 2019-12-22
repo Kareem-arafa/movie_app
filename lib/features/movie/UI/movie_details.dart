@@ -18,6 +18,7 @@ class DetailScreen extends StatefulWidget {
     this.voteAverage,
     this.movieId,
   });
+
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
@@ -26,7 +27,137 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SafeArea(
+        body: SafeArea(
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Stack(
+          children: <Widget>[
+            Container(
+              height: 390,
+              width: double.infinity,
+            ),
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                  image: new NetworkImage(
+                      'https://image.tmdb.org/t/p/w500${widget.posterUrl}'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {},
+                color: Colors.black,
+              ),
+            ),
+            Positioned(
+              top: 75,
+              right: (MediaQuery.of(context).size.width / 2) - 25,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: Colors.black,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 170.0,
+              left: 15.0,
+              child: Material(
+                elevation: 3.0,
+                borderRadius: BorderRadius.circular(7.0),
+                child: Container(
+                  height: 200.0,
+                  width: 140.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.0),
+                    image: new DecorationImage(
+                      image: new NetworkImage(
+                          'https://image.tmdb.org/t/p/w500${widget.posterUrl}'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 215,
+              left: 165,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width - 165,
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(widget.releaseDate),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text('Rate'),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0,right: 8.0),
+              child: Text(
+                'Description :',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: Text(
+                widget.description,
+                style:
+                    TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+         Padding(
+              padding: const EdgeInsets.only(left:30.0,right: 30.0,top: 8.0),
+              child: Container(
+                child: Divider(
+          color: Colors.grey,
+        ),
+              ),
+            ),
+
+      ],
+    ))
+
+        /*SafeArea(
         top: false,
         bottom: false,
         child: NestedScrollView(
@@ -102,7 +233,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
-                /*FutureBuilder<TrailerModel>(
+                */ /*FutureBuilder<TrailerModel>(
                   future: MovieApiProvider().fetchTrailer(widget.movieId),
                   builder: (context,snapshot){
                      if (snapshot.hasData) {
@@ -114,15 +245,15 @@ class _DetailScreenState extends State<DetailScreen> {
                       return Center(child: CircularProgressIndicator());
                     }
                   },
-                )*/
+                )*/ /*
               ],
             ),
           ),
         ),
-      ),
-    );
+      ),*/
+        );
   }
- /* Widget noTrailer(TrailerModel data) {
+/* Widget noTrailer(TrailerModel data) {
     return Center(
       child: Container(
         child: Text("No trailer available"),
@@ -130,7 +261,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }*/
 
-  /*Widget trailerLayout(TrailerModel data) {
+/*Widget trailerLayout(TrailerModel data) {
     if (data.results.length > 1) {
       return Column(
         children: <Widget>[
@@ -147,7 +278,7 @@ class _DetailScreenState extends State<DetailScreen> {
     }
   }*/
 
-  /*trailerItem(TrailerModel data, int index) {
+/*trailerItem(TrailerModel data, int index) {
     return  InkResponse(
         enableFeedback: true,
         child: Column(
@@ -199,7 +330,6 @@ class _DetailScreenState extends State<DetailScreen> {
 */
 
 }
-
 
 /*
 SafeArea(
@@ -291,7 +421,7 @@ Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0)),
                       return Center(child: CircularProgressIndicator());
                     }
                   },
-                )*//*
+                )*/ /*
 
 ],
 ),

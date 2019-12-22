@@ -102,5 +102,4 @@ class UpComing {
       voteCount: voteCount ?? this.voteCount,
     );
   }
-
 }

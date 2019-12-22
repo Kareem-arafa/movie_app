@@ -1,39 +1,39 @@
 import 'package:redux/redux.dart';
 import 'package:movie_app/redux/action_report.dart';
 import 'package:movie_app/redux/app/app_state.dart';
-import 'package:movie_app/redux/topRated/topRated_action.dart';
-import 'package:movie_app/data/model/topRated_data.dart';
-import 'package:movie_app/data/remote/topRated_repository.dart';
+import 'package:movie_app/redux/upComing/upComing_action.dart';
+import 'package:movie_app/data/model/upComing_data.dart';
+import 'package:movie_app/data/remote/upComing_repository.dart';
 import 'package:movie_app/data/model/page_data.dart';
 
-List<Middleware<AppState>> createTopRatedMiddleware([
-  TopRatedRepository _repository = const TopRatedRepository(),
+List<Middleware<AppState>> createUpComingMiddleware([
+  UpComingRepository _repository = const UpComingRepository(),
 ]) {
 
-  final getTopRateds = _createGetTopRateds(_repository);
+  final getUpComings = _createGetUpComings(_repository);
 
   return [
-    TypedMiddleware<AppState, GetTopRatedsAction>(getTopRateds),
+    TypedMiddleware<AppState, GetUpComingsAction>(getUpComings),
   ];
 }
 
-Middleware<AppState> _createGetTopRateds(
-    TopRatedRepository repository) {
+Middleware<AppState> _createGetUpComings(
+    UpComingRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
 
     running(next, action);
     if (action.isRefresh) {
-      store.state.topRatedState.page.currPage = 1;
-      store.state.topRatedState.topRateds.clear();
+      store.state.upComingState.page.currPage = 1;
+      store.state.upComingState.upComings.clear();
     } else {
-      var p = ++store.state.topRatedState.page.currPage;
-      if (p > ++store.state.topRatedState.page.totalPage) {
+      var p = ++store.state.upComingState.page.currPage;
+      if (p > ++store.state.upComingState.page.totalPage) {
         noMoreItem(next, action);
         return;
       }
     }
     repository
-        .getMovieModelsList(store.state.topRatedState.page.currPage)
+        .getMovieModelsList(store.state.upComingState.page.currPage)
         .then((map) {
       if (map.isNotEmpty) {
         var page = Page(
@@ -41,36 +41,21 @@ Middleware<AppState> _createGetTopRateds(
             totalPage: map["total_pages"],
             totalCount: map["total_results"]);
         var l = map["results"] ?? List();
-        List<TopRated> list =
-        l.map<TopRated>((item) => new TopRated.fromJson(item)).toList();
-        next(SyncTopRatedsAction(page: page, topRateds: list));
+        List<UpComing> list =
+        l.map<UpComing>((item) => new UpComing.fromJson(item)).toList();
+        next(SyncUpComingsAction(page: page, upComings: list));
       }
       completed(next, action);
     }).catchError((error) {
       print(error);
       catchError(next, action, error);
     });
-//    repositoryDB
-//        .getNowPlayingsList(
-//            "id",
-//            store.state.nowplayingState.page.pageSize,
-//            store.state.nowplayingState.page.pageSize *
-//                store.state.nowplayingState.page.currPage)
-//        .then((map) {
-//      if (map.isNotEmpty) {
-//        var page = Page(currPage: store.state.nowplayingState.page.currPage + 1);
-//        next(SyncNowPlayingsAction(page: page, nowplayings: map));
-//        completed(next, action);
-//      }
-//    }).catchError((error) {
-//      catchError(next, action, error);
-//    });
-  };
+};
 }
 
 
 void catchError(NextDispatcher next, action, error) {
-  next(TopRatedStatusAction(
+  next(UpComingStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,
@@ -78,7 +63,7 @@ void catchError(NextDispatcher next, action, error) {
 }
 
 void completed(NextDispatcher next, action) {
-  next(TopRatedStatusAction(
+  next(UpComingStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -86,7 +71,7 @@ void completed(NextDispatcher next, action) {
 }
 
 void noMoreItem(NextDispatcher next, action) {
-  next(TopRatedStatusAction(
+  next(UpComingStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -94,7 +79,7 @@ void noMoreItem(NextDispatcher next, action) {
 }
 
 void running(NextDispatcher next, action) {
-  next(TopRatedStatusAction(
+  next(UpComingStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.running,
@@ -102,7 +87,7 @@ void running(NextDispatcher next, action) {
 }
 
 void idEmpty(NextDispatcher next, action) {
-  next(TopRatedStatusAction(
+  next(UpComingStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,

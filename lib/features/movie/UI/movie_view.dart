@@ -9,6 +9,7 @@ import 'package:movie_app/features/now%20playin/now%20playin_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'popular.dart';
 import 'package:movie_app/features/topRated/topRared_view.dart';
+import 'package:movie_app/features/upComing/upComing_view.dart';
 
 class MovieView extends StatelessWidget {
   MovieView({Key key}) : super(key: key);
@@ -91,8 +92,8 @@ class _MovieViewContentState extends State<MovieViewContent> with TickerProvider
           tabs: [
             Tab(text: 'Popular'),
             Tab(text: 'Now playing'),
-            Tab(text: 'Upcoming'),
             Tab(text: 'top rated'),
+            Tab(text: 'Upcoming'),
           ],
           controller: _tabController,
           indicatorColor: Colors.white,
@@ -102,11 +103,10 @@ class _MovieViewContentState extends State<MovieViewContent> with TickerProvider
       key: _scaffoldKey,
       body: TabBarView(
         children: <Widget>[
-         Popular(),
-        // NowPlaying(),
+          Popular(),
           nowplayinView(),
-          buildCustomScrollView(),
           TopRatedView(),
+          UpComingView(),
         ],
         controller: _tabController,
       )
