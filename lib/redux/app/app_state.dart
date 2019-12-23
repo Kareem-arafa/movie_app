@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:movie_app/data/model/page_data.dart';
+import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
 import 'package:movie_app/redux/topRated/topRated_state.dart';
@@ -13,12 +14,14 @@ class AppState {
   final NowPlayingState nowPlayingState;
   final TopRatedState topRatedState;
   final UpComingState upComingState;
+  final MovieDetailsState movieDetailsState;
 
   AppState({
     @required this.moviemodelState,
     @required this.nowPlayingState,
     @required this.topRatedState,
     @required this.upComingState,
+    @required this.movieDetailsState,
   });
 
   factory AppState.initial() {
@@ -46,6 +49,12 @@ class AppState {
         upComings: Map(),
         status: Map(),
         page: Page(),
+      ),
+      movieDetailsState: MovieDetailsState(
+          status: Map(),
+          detailsModel: null,
+          detailsModels: Map(),
+          page: Page(),
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:movie_app/features/now playin/now playin_view_model.dart';
 import 'package:movie_app/redux/action_report.dart';
 import 'package:movie_app/utils/progress_dialog.dart';
 import 'package:movie_app/features/widget/spannable_grid.dart';
+import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 
 class nowplayinView extends StatelessWidget {
   nowplayinView({Key key}) : super(key: key);
@@ -93,22 +94,7 @@ class _nowplayinViewContentState extends State<nowplayinViewContent> {
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DetailScreen(
-                    title: this.widget.viewModel.nowplayings[index].title,
-                    posterUrl:
-                    this.widget.viewModel.nowplayings[index].posterPath,
-                    description:
-                    this.widget.viewModel.nowplayings[index].overview,
-                    releaseDate:
-                    this.widget.viewModel.nowplayings[index].releaseDate,
-                    voteAverage: this
-                        .widget
-                        .viewModel
-                        .nowplayings[index]
-                        .voteAverage
-                        .toString(),
-                    movieId: this.widget.viewModel.nowplayings[index].id,
-                  );
+                  return MovieDetailsView(id:this.widget.viewModel.nowplayings[index].id);
                 }));
               },
             ),

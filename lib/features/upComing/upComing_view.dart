@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/movie/UI/movie_details.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/features/upComing/upComing_view_model.dart';
 
@@ -87,22 +88,7 @@ class _UpComingViewContentState extends State<UpComingViewContent> {
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DetailScreen(
-                    title: this.widget.viewModel.upComings[index].title,
-                    posterUrl:
-                    this.widget.viewModel.upComings[index].posterPath,
-                    description:
-                    this.widget.viewModel.upComings[index].overview,
-                    releaseDate:
-                    this.widget.viewModel.upComings[index].releaseDate,
-                    voteAverage: this
-                        .widget
-                        .viewModel
-                        .upComings[index]
-                        .voteAverage
-                        .toString(),
-                    movieId: this.widget.viewModel.upComings[index].id,
-                  );
+                  return MovieDetailsView(id:this.widget.viewModel.upComings[index].id);
                 }));
               },
             ),

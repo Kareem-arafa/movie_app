@@ -19,9 +19,10 @@ class MovieView extends StatelessWidget {
     return StoreConnector<AppState, MovieViewModel>(
       distinct: true,
       converter: (store) => MovieViewModel.fromStore(store),
-      builder: (context, viewModel) => MovieViewContent(
-        viewModel: viewModel,
-      ),
+      builder: (context, viewModel) =>
+          MovieViewContent(
+            viewModel: viewModel,
+          ),
     );
   }
 }
@@ -37,7 +38,8 @@ class MovieViewContent extends StatefulWidget {
 
 const double _fabHalfSize = 28.0;
 
-class _MovieViewContentState extends State<MovieViewContent> with TickerProviderStateMixin {
+class _MovieViewContentState extends State<MovieViewContent>
+    with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final double _appBarHeight = 256.0;
 
@@ -48,7 +50,7 @@ class _MovieViewContentState extends State<MovieViewContent> with TickerProvider
 
   @override
   void initState() {
-    _tabController = new TabController(length: 4, vsync:this);
+    _tabController = new TabController(length: 4, vsync: this);
     this.widget.viewModel.getMovieModels(true);
     super.initState();
 
@@ -83,92 +85,41 @@ class _MovieViewContentState extends State<MovieViewContent> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title:Text("Movie app"),
-        bottom:  TabBar(
+        appBar: AppBar(
+          title: Text("Movie app"),
+          leading: Icon(Icons.home, color: Colors.white,),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Popular'),
+              Tab(text: 'Now playing'),
+              Tab(text: 'top rated'),
+              Tab(text: 'Upcoming'),
+            ],
 
-          tabs: [
-            Tab(text: 'Popular'),
-            Tab(text: 'Now playing'),
-            Tab(text: 'top rated'),
-            Tab(text: 'Upcoming'),
+            controller: _tabController,
+            indicatorColor: Colors.amber,
+            unselectedLabelColor: Colors.white,
+            labelColor: Colors.amber,
+            indicatorSize: TabBarIndicatorSize.tab,
+          ),
+          bottomOpacity: 1,
+        ),
+        key: _scaffoldKey,
+        body: TabBarView(
+          children: <Widget>[
+            Popular(),
+            nowplayinView(),
+            TopRatedView(),
+            UpComingView(),
           ],
           controller: _tabController,
-          indicatorColor: Colors.white,
-          indicatorSize: TabBarIndicatorSize.tab,),
-          bottomOpacity: 1,
-      ),
-      key: _scaffoldKey,
-      body: TabBarView(
-        children: <Widget>[
-          Popular(),
-          nowplayinView(),
-          TopRatedView(),
-          UpComingView(),
-        ],
-        controller: _tabController,
-      )
+        )
       //buildCustomScrollView(),
     );
   }
 
-  Widget _buildProgressIndicator() {
-    return new Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Center(
-        child: new Opacity(
-          opacity: isLoading ? 1.0 : 00,
-          child: new CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-
-  GridView buildCustomScrollView() {
-    return GridView.builder(
-      itemCount: this.widget.viewModel.moviemodels.length + 1,
-      gridDelegate:
-          new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (BuildContext context, int index) {
-        if (index == this.widget.viewModel.moviemodels.length) {
-          return _buildProgressIndicator();
-        } else {
-          return GridTile(
-            child: InkResponse(
-              enableFeedback: true,
-              child: Image.network(
-                'https://image.tmdb.org/t/p/w200${this.widget.viewModel.moviemodels[index].posterPath}',
-                fit: BoxFit.cover,
-              ),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DetailScreen(
-                    title: this.widget.viewModel.moviemodels[index].title,
-                    posterUrl:
-                        this.widget.viewModel.moviemodels[index].posterPath,
-                    description:
-                        this.widget.viewModel.moviemodels[index].overview,
-                    releaseDate:
-                        this.widget.viewModel.moviemodels[index].releaseDate,
-                    voteAverage: this
-                        .widget
-                        .viewModel
-                        .moviemodels[index]
-                        .voteAverage
-                        .toString(),
-                    movieId: this.widget.viewModel.moviemodels[index].id,
-                  );
-                }));
-              },
-            ),
-          );
-        }
-      },
-      controller: _scrollController,
-    );
-  }
 }
+
 
 

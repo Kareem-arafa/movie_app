@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/movie/UI/movie_details.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/features/topRated/topRated_view_model.dart';
 
@@ -87,22 +88,7 @@ class _TopRatedViewContentState extends State<TopRatedViewContent> {
               ),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DetailScreen(
-                    title: this.widget.viewModel.topRateds[index].title,
-                    posterUrl:
-                    this.widget.viewModel.topRateds[index].posterPath,
-                    description:
-                    this.widget.viewModel.topRateds[index].overview,
-                    releaseDate:
-                    this.widget.viewModel.topRateds[index].releaseDate,
-                    voteAverage: this
-                        .widget
-                        .viewModel
-                        .topRateds[index]
-                        .voteAverage
-                        .toString(),
-                    movieId: this.widget.viewModel.topRateds[index].id,
-                  );
+                  return MovieDetailsView(id:this.widget.viewModel.topRateds[index].id);
                 }));
               },
             ),

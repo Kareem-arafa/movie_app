@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'movie_details.dart';
-import 'package:movie_app/features/movie/movie_view_model.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:movie_app/features/movie/movie_view_model.dart';
+import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 
-
+import 'movie_details.dart';
 
 class Popular extends StatelessWidget {
   Popular({Key key}) : super(key: key);
@@ -14,15 +14,17 @@ class Popular extends StatelessWidget {
     return StoreConnector<AppState, MovieViewModel>(
       distinct: true,
       converter: (store) => MovieViewModel.fromStore(store),
-      builder: (context, viewModel) => PopularMovie(
-        viewModel: viewModel,
-      ),
+      builder: (context, viewModel) =>
+          PopularMovie(
+            viewModel: viewModel,
+          ),
     );
   }
 }
 
 class PopularMovie extends StatefulWidget {
   final MovieViewModel viewModel;
+
   PopularMovie({Key key, this.viewModel}) : super(key: key);
 
   @override
@@ -33,7 +35,6 @@ class _PopularMovieState extends State<PopularMovie> {
   ScrollController _scrollController = new ScrollController();
 
   bool isLoading = false;
-
 
   Widget _buildProgressIndicator() {
     return new Padding(
@@ -46,10 +47,11 @@ class _PopularMovieState extends State<PopularMovie> {
       ),
     );
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
-  this.widget.viewModel.getMovieModels(true);
+    this.widget.viewModel.getMovieModels(true);
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -68,9 +70,10 @@ class _PopularMovieState extends State<PopularMovie> {
     super.dispose();
     _scrollController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  GridView.builder(
+    return GridView.builder(
       itemCount: this.widget.viewModel.moviemodels.length + 1,
       gridDelegate:
       new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -82,27 +85,26 @@ class _PopularMovieState extends State<PopularMovie> {
             child: InkResponse(
               enableFeedback: true,
               child: Image.network(
-                'https://image.tmdb.org/t/p/w200${this.widget.viewModel.moviemodels[index].posterPath}',
-                fit: BoxFit.cover,
+                'https://image.tmdb.org/t/p/w200${this.widget.viewModel
+                    .moviemodels[index].posterPath}',
+                fit: BoxFit.fill,
               ),
               onTap: () {
+                String dropDown;
+                this
+                    .widget
+                    .viewModel
+                    .moviemodels[index]
+                    .backdropPath == null
+                    ?
+                dropDown = this
+                    .widget
+                    .viewModel
+                    .moviemodels[index]
+                    .posterPath
+                    : dropDown = this.widget.viewModel.moviemodels[index].backdropPath;
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DetailScreen(
-                    title: this.widget.viewModel.moviemodels[index].title,
-                    posterUrl:
-                    this.widget.viewModel.moviemodels[index].posterPath,
-                    description:
-                    this.widget.viewModel.moviemodels[index].overview,
-                    releaseDate:
-                    this.widget.viewModel.moviemodels[index].releaseDate,
-                    voteAverage: this
-                        .widget
-                        .viewModel
-                        .moviemodels[index]
-                        .voteAverage
-                        .toString(),
-                    movieId: this.widget.viewModel.moviemodels[index].id,
-                  );
+                  return MovieDetailsView(id:this.widget.viewModel.moviemodels[index].id);
                 }));
               },
             ),

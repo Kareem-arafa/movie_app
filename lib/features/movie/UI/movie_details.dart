@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //import 'package:movie/provider/movie_provider.dart';
@@ -6,6 +7,7 @@ class DetailScreen extends StatefulWidget {
   final posterUrl;
   final description;
   final releaseDate;
+  final dropDown;
   final String title;
   final String voteAverage;
   final int movieId;
@@ -13,6 +15,7 @@ class DetailScreen extends StatefulWidget {
   DetailScreen({
     this.title,
     this.posterUrl,
+    this.dropDown,
     this.description,
     this.releaseDate,
     this.voteAverage,
@@ -29,7 +32,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
         body: SafeArea(
             child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    //  mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Stack(
           children: <Widget>[
@@ -43,9 +46,16 @@ class _DetailScreenState extends State<DetailScreen> {
               decoration: BoxDecoration(
                 image: new DecorationImage(
                   image: new NetworkImage(
-                      'https://image.tmdb.org/t/p/w500${widget.posterUrl}'),
-                  fit: BoxFit.cover,
+                      'https://image.tmdb.org/t/p/w500${widget.dropDown}'),
+                  fit: BoxFit.fill,
                 ),
+              ),
+            ),
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(0, 0, 0, 0.3)
               ),
             ),
             Align(
@@ -53,7 +63,7 @@ class _DetailScreenState extends State<DetailScreen> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {},
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
             Positioned(
@@ -98,15 +108,18 @@ class _DetailScreenState extends State<DetailScreen> {
               top: 215,
               left: 165,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width - 165,
                     child: Text(
                       widget.title,
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           color: Colors.amber,
                           fontWeight: FontWeight.bold),
                     ),
@@ -114,11 +127,30 @@ class _DetailScreenState extends State<DetailScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text(widget.releaseDate),
+                  Text(widget.releaseDate,style: TextStyle(
+                    fontSize: 18.0,
+                  )),
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text('Rate'),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 1.0, right: 2.0),
+                      ),
+                      Text(
+                        widget.voteAverage,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ],
+                  )
+
                 ],
               ),
             ),
@@ -129,7 +161,7 @@ class _DetailScreenState extends State<DetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 15.0,right: 8.0),
+              padding: const EdgeInsets.only(left: 15.0, right: 8.0),
               child: Text(
                 'Description :',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -145,15 +177,61 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ],
         ),
-         Padding(
-              padding: const EdgeInsets.only(left:30.0,right: 30.0,top: 8.0),
-              child: Container(
-                child: Divider(
-          color: Colors.grey,
-        ),
-              ),
+        Padding(
+          padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 8.0),
+          child: Container(
+            child: Divider(
+              color: Colors.grey,
             ),
-
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                'Casts : ',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+        Expanded(
+          child: new Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: new ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 7,
+                itemBuilder: (context, index) => Container(
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: 80.0,
+                            height: 80.0,
+                            decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              image: new DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: new NetworkImage(
+                                      "https://i.pravatar.cc/300")),
+                            ),
+                            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          ),
+                          Container(
+                            width: 80,
+                            child: Text(
+                              'Karem arafa mahmoud',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+          ),
+        )
       ],
     ))
 
