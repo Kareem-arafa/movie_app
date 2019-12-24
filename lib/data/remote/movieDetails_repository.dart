@@ -14,9 +14,7 @@ class MovieDetailsRepository {
     return  new NetworkCommon().dio.get("${id.toString()}", queryParameters: {
       "api_key": _apiKey,
     }).then((d) {
-      print("before print : ${d.toString()}");
       var result= new NetworkCommon().decodeResp(d);
-      print("after print :$result");
       return DetailsModel.fromJSON(result);
     });
   }

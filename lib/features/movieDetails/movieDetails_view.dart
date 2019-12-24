@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 
@@ -34,6 +35,7 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    this.widget.viewModel.getTrailer(widget.id);
     this.widget.viewModel.getMovieDetails(widget.id);
   }
   @override
@@ -72,7 +74,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       alignment: Alignment.topLeft,
                       child: IconButton(
                         icon: Icon(Icons.arrow_back),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         color: Colors.white,
                       ),
                     ),
@@ -82,17 +86,23 @@ class _DetailScreenState extends State<DetailScreen> {
                           .of(context)
                           .size
                           .width / 2) - 25,
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.0),
-                          color: Colors.black,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
+                      child: GestureDetector(
+                        onTap: (){
+                         // print(this.widget.viewModel.trailers.length);
+                          _openYoutube( this.widget.viewModel.trailers.results[0].key);
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.play_arrow,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -268,4 +278,35 @@ class _DetailScreenState extends State<DetailScreen> {
             ))
     );
   }
+  _openYoutube(String videoId) async {
+    try {
+      await launch(
+        'https://www.youtube.com/watch?v=$videoId',
+        option: new CustomTabsOption(
+          toolbarColor: Theme.of(context).primaryColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: new CustomTabsAnimation.slideIn(),
+          // or user defined animation.
+//          animation: new CustomTabsAnimation(
+//          startEnter: 'slide_up',
+//          startExit: 'android:anim/fade_out',
+//          endEnter: 'android:anim/fade_in',
+//          endExit: 'slide_down',
+//        ),
+          extraCustomTabs: <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
+  }
+
 }

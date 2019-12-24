@@ -1,24 +1,35 @@
-import 'package:movie_app/data/remote/movieDetails_repository.dart';
-import 'package:movie_app/redux/MovieDetails/movieDetails_action.dart';
+import 'package:redux/redux.dart';
 import 'package:movie_app/redux/action_report.dart';
 import 'package:movie_app/redux/app/app_state.dart';
-import 'package:redux/redux.dart';
+import 'package:movie_app/redux/trailer/trailer_action.dart';
+import 'package:movie_app/data/model/trailler_data.dart';
+import 'package:movie_app/data/remote/trailer_repository.dart';
 
-List<Middleware<AppState>> createMovieDetailsMiddleware([
-  MovieDetailsRepository _repository = const MovieDetailsRepository(),
+List<Middleware<AppState>> createTrailerMiddleware([
+  TrailersRepository _repository = const TrailersRepository(),
 ]) {
-  final getMovieDetails = _createGetMovieDetails(_repository);
+
+  final getTrailers = _createGetTrailers(_repository);
 
   return [
-    TypedMiddleware<AppState, GetMovieDetailsAction>(getMovieDetails),
+    TypedMiddleware<AppState, GetTrailersAction>(getTrailers),
   ];
 }
 
-Middleware<AppState> _createGetMovieDetails(MovieDetailsRepository repository) {
+Middleware<AppState> _createGetTrailers(
+    TrailersRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
+
     running(next, action);
-    repository.getMovieDetails(action.id).then((item) {
-      next(SyncMovieDetailsAction(detailsModel: item));
+    repository
+       .getTrailers(action.id)
+        .then((data) {
+      if (data.isNotEmpty) {
+        print('data deliver tailer ');
+        TrailerModel list = TrailerModel.fromJson(data);
+        print("middleware:");
+        next(SyncTrailersAction(trailer: list));
+      }
       completed(next, action);
     }).catchError((error) {
       print(error);
@@ -27,8 +38,9 @@ Middleware<AppState> _createGetMovieDetails(MovieDetailsRepository repository) {
   };
 }
 
+
 void catchError(NextDispatcher next, action, error) {
-  next(MovieDetailsStatusAction(
+  next(TrailerStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,
@@ -36,7 +48,7 @@ void catchError(NextDispatcher next, action, error) {
 }
 
 void completed(NextDispatcher next, action) {
-  next(MovieDetailsStatusAction(
+  next(TrailerStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -44,7 +56,7 @@ void completed(NextDispatcher next, action) {
 }
 
 void noMoreItem(NextDispatcher next, action) {
-  next(MovieDetailsStatusAction(
+  next(TrailerStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -52,7 +64,7 @@ void noMoreItem(NextDispatcher next, action) {
 }
 
 void running(NextDispatcher next, action) {
-  next(MovieDetailsStatusAction(
+  next(TrailerStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.running,
@@ -60,7 +72,7 @@ void running(NextDispatcher next, action) {
 }
 
 void idEmpty(NextDispatcher next, action) {
-  next(MovieDetailsStatusAction(
+  next(TrailerStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,

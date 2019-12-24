@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/model/movieDetails_data.dart';
-import 'package:movie_app/data/model/page_data.dart';
 
 import '../action_report.dart';
 

@@ -4,6 +4,7 @@ import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
 import 'package:movie_app/redux/topRated/topRated_state.dart';
+import 'package:movie_app/redux/trailer/trailer_state.dart';
 import 'package:movie_app/redux/upComing/upComing_state.dart';
 
 /// manage all state of this project
@@ -15,8 +16,10 @@ class AppState {
   final TopRatedState topRatedState;
   final UpComingState upComingState;
   final MovieDetailsState movieDetailsState;
+  final TrailerState trailerState;
 
   AppState({
+    @required this.trailerState,
     @required this.moviemodelState,
     @required this.nowPlayingState,
     @required this.topRatedState,
@@ -51,10 +54,15 @@ class AppState {
         page: Page(),
       ),
       movieDetailsState: MovieDetailsState(
-          status: Map(),
-          detailsModel: null,
-          detailsModels: Map(),
-          page: Page(),
+        status: Map(),
+        detailsModel: null,
+        detailsModels: Map(),
+        page: Page(),
+      ),
+      trailerState: TrailerState(
+        trailers: Map(),
+        trailerModel: null,
+        status: Map(),
       ),
     );
   }
