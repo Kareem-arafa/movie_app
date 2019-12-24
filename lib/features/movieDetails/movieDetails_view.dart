@@ -37,6 +37,7 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
     this.widget.viewModel.getTrailer(widget.id);
     this.widget.viewModel.getMovieDetails(widget.id);
+    this.widget.viewModel.getCast(widget.id);
   }
   @override
   Widget build(BuildContext context) {
@@ -182,10 +183,8 @@ class _DetailScreenState extends State<DetailScreen> {
                           SizedBox(
                             height: 10.0,
                           ),
-                          Text('${this.widget.viewModel.detailsModel
-                              .genres[0].name} , ${this.widget.viewModel.detailsModel
-                              .genres[1].name} , ${this.widget.viewModel.detailsModel
-                              .genres[2].name}', style: TextStyle(
+                          Text(this.widget.viewModel.detailsModel
+                              .genres.map((gen) => gen.name).join(' - '), style: TextStyle(
                             fontSize: 15.0,
                           )),
                         ],
@@ -257,7 +256,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       image: new DecorationImage(
                                           fit: BoxFit.fill,
                                           image: new NetworkImage(
-                                              "https://i.pravatar.cc/300")),
+                                              "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${this.widget.viewModel.castModel.casts[index].profilePath}")),
                                     ),
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
@@ -265,7 +264,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   Container(
                                     width: 80,
                                     child: Text(
-                                      'Karem arafa mahmoud',
+                                      this.widget.viewModel.castModel.casts[index].name,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),

@@ -10,11 +10,9 @@ class TrailersRepository {
   final _apiKey = "f55fbda0cb73b855629e676e54ab6d8e";
 
   Future<Map> getTrailers(int id) {
-    print("repository :$id");
     return  new NetworkCommon().dio.get("${id.toString()}//videos", queryParameters: {
       "api_key": _apiKey,
     }).then((d) {
-      print("trailers : ${d.toString()}");
       return new NetworkCommon().decodeResp(d) as Map;
     });
   }

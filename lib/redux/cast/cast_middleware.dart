@@ -1,32 +1,34 @@
 import 'package:redux/redux.dart';
 import 'package:movie_app/redux/action_report.dart';
 import 'package:movie_app/redux/app/app_state.dart';
-import 'package:movie_app/redux/trailer/trailer_action.dart';
-import 'package:movie_app/data/model/trailler_data.dart';
-import 'package:movie_app/data/remote/trailer_repository.dart';
+import 'package:movie_app/redux/cast/cast_action.dart';
+import 'package:movie_app/data/model/cast_data.dart';
+import 'package:movie_app/data/remote/cast_repository.dart';
 
-List<Middleware<AppState>> createTrailerMiddleware([
-  TrailersRepository _repository = const TrailersRepository(),
+List<Middleware<AppState>> createCastMiddleware([
+  CastRepository _repository = const CastRepository(),
 ]) {
 
-  final getTrailers = _createGetTrailers(_repository);
+  final getCast = _createGetCasts(_repository);
 
   return [
-    TypedMiddleware<AppState, GetTrailersAction>(getTrailers),
+    TypedMiddleware<AppState, GetCastAction>(getCast),
   ];
 }
 
-Middleware<AppState> _createGetTrailers(
-    TrailersRepository repository) {
+Middleware<AppState> _createGetCasts(
+    CastRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
 
     running(next, action);
     repository
-       .getTrailers(action.id)
+        .getCasts(action.id)
         .then((data) {
       if (data.isNotEmpty) {
-        TrailerModel list = TrailerModel.fromJson(data);
-        next(SyncTrailersAction(trailer: list));
+        print('data deliver Cast ');
+        CastModel cast = CastModel.fromJson(data);
+        print("middleware Cast : ${cast.casts[0].name}");
+        next(SyncCastAction(castModel: cast));
       }
       completed(next, action);
     }).catchError((error) {
@@ -38,7 +40,7 @@ Middleware<AppState> _createGetTrailers(
 
 
 void catchError(NextDispatcher next, action, error) {
-  next(TrailerStatusAction(
+  next(CastStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,
@@ -46,7 +48,7 @@ void catchError(NextDispatcher next, action, error) {
 }
 
 void completed(NextDispatcher next, action) {
-  next(TrailerStatusAction(
+  next(CastStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -54,7 +56,7 @@ void completed(NextDispatcher next, action) {
 }
 
 void noMoreItem(NextDispatcher next, action) {
-  next(TrailerStatusAction(
+  next(CastStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.complete,
@@ -62,7 +64,7 @@ void noMoreItem(NextDispatcher next, action) {
 }
 
 void running(NextDispatcher next, action) {
-  next(TrailerStatusAction(
+  next(CastStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.running,
@@ -70,7 +72,7 @@ void running(NextDispatcher next, action) {
 }
 
 void idEmpty(NextDispatcher next, action) {
-  next(TrailerStatusAction(
+  next(CastStatusAction(
       report: ActionReport(
           actionName: action.actionName,
           status: ActionStatus.error,

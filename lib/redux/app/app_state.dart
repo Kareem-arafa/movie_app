@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
+import 'package:movie_app/redux/cast/cast_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
 import 'package:movie_app/redux/topRated/topRated_state.dart';
@@ -17,8 +18,10 @@ class AppState {
   final UpComingState upComingState;
   final MovieDetailsState movieDetailsState;
   final TrailerState trailerState;
+  final CastState castState;
 
   AppState({
+    @required this.castState,
     @required this.trailerState,
     @required this.moviemodelState,
     @required this.nowPlayingState,
@@ -62,6 +65,11 @@ class AppState {
       trailerState: TrailerState(
         trailers: Map(),
         trailerModel: null,
+        status: Map(),
+      ),
+      castState: CastState(
+        casts: Map(),
+        castModel: null,
         status: Map(),
       ),
     );

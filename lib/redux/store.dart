@@ -1,4 +1,5 @@
 import 'package:logging/logging.dart';
+
 import 'package:movie_app/redux/app/app_reducer.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_middleware.dart';
@@ -7,6 +8,8 @@ import 'package:movie_app/redux/topRated/topRated_middleware.dart';
 import 'package:movie_app/redux/upComing/upComing_middleware.dart';
 import 'package:movie_app/redux/MovieDetails/movieDetails_middleware.dart';
 import 'package:movie_app/redux/trailer/trailer_middleware.dart';
+import 'package:movie_app/redux/cast/cast_middleware.dart';
+
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
@@ -22,6 +25,7 @@ Future<Store<AppState>> createStore() async {
       ..addAll(createUpComingMiddleware())
       ..addAll(createMovieDetailsMiddleware())
       ..addAll(createTrailerMiddleware())
+      ..addAll(createCastMiddleware())
       ..addAll([
         LoggingMiddleware<dynamic>.printer(level: Level.ALL),
       ]),
