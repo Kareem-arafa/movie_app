@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
+enum MovieType {now_playing,popular,upcoming,top_rated}
+
 class MovieModel {
   String overview;
   String originalLanguage;

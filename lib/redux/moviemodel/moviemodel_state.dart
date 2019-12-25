@@ -4,7 +4,7 @@ import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/action_report.dart';
 
 class MovieModelState {
-  final Map<String, MovieModel> moviemodels;
+  final Map<String,Map<String,MovieModel>> moviemodels;
   final MovieModel moviemodel;
   final Map<String, ActionReport> status;
   final Page page;
@@ -19,7 +19,7 @@ class MovieModelState {
   });
 
   MovieModelState copyWith({
-    Map<String, MovieModel> moviemodels,
+    final Map<String,Map<String,MovieModel>> moviemodels,
     MovieModel moviemodel,
     Map<String, ActionReport> status,
     Page page,

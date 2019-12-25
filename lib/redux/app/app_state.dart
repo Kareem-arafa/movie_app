@@ -3,19 +3,14 @@ import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
 import 'package:movie_app/redux/cast/cast_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
-import 'package:movie_app/redux/nowplaying/nowplaying_state.dart';
-import 'package:movie_app/redux/topRated/topRated_state.dart';
 import 'package:movie_app/redux/trailer/trailer_state.dart';
-import 'package:movie_app/redux/upComing/upComing_state.dart';
 
 /// manage all state of this project
 /// auto add new state when using haystack plugin
 /// configure the initialize of state
 class AppState {
   final MovieModelState moviemodelState;
-  final NowPlayingState nowPlayingState;
-  final TopRatedState topRatedState;
-  final UpComingState upComingState;
+
   final MovieDetailsState movieDetailsState;
   final TrailerState trailerState;
   final CastState castState;
@@ -24,9 +19,6 @@ class AppState {
     @required this.castState,
     @required this.trailerState,
     @required this.moviemodelState,
-    @required this.nowPlayingState,
-    @required this.topRatedState,
-    @required this.upComingState,
     @required this.movieDetailsState,
   });
 
@@ -35,24 +27,6 @@ class AppState {
       moviemodelState: MovieModelState(
         moviemodel: null,
         moviemodels: Map(),
-        status: Map(),
-        page: Page(),
-      ),
-      nowPlayingState: NowPlayingState(
-        page: Page(),
-        nowplayings: Map(),
-        nowplaying: null,
-        status: Map(),
-      ),
-      topRatedState: TopRatedState(
-        topRateds: Map(),
-        topRated: null,
-        status: Map(),
-        page: Page(),
-      ),
-      upComingState: UpComingState(
-        upComing: null,
-        upComings: Map(),
         status: Map(),
         page: Page(),
       ),

@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:redux/redux.dart';
 import 'package:movie_app/data/model/moviemodel_data.dart';
 import 'package:movie_app/redux/action_report.dart';
@@ -19,15 +20,12 @@ class MovieViewModel {
     this.getNowPlayingMovieModels
   });
 
-  static MovieViewModel fromStore(Store<AppState> store) {
+  static MovieViewModel fromStore(Store<AppState> store, String type) {
     return MovieViewModel(
       moviemodel: store.state.moviemodelState.moviemodel,
-      moviemodels: store.state.moviemodelState.moviemodels.values.toList() ?? [],
+      moviemodels: store.state.moviemodelState?.moviemodels[type]?.values?.toList() ?? [],
       getMovieModels: (isRefresh) {
-        store.dispatch(GetMovieModelsAction(isRefresh: isRefresh));
-      },
-      getNowPlayingMovieModels: (isRefresh) {
-        store.dispatch(GetMovieModelsAction(isRefresh: isRefresh));
+        store.dispatch(GetMovieModelsAction(isRefresh: isRefresh,type: type));
       },
       getMovieModelsReport: store.state.moviemodelState.status["GetMovieModelsAction"],
 

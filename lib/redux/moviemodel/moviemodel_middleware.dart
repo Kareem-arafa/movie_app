@@ -10,39 +10,15 @@ import 'package:movie_app/data/model/page_data.dart';
 List<Middleware<AppState>> createMovieModelMiddleware([
   MovieModelRepository _repository = const MovieModelRepository(),
 ]) {
-  final getMovieModel = _createGetMovieModel(_repository);
   final getMovieModels = _createGetMovieModels(_repository);
-  final createMovieModel = _createCreateMovieModel(_repository);
-  final updateMovieModel = _createUpdateMovieModel(_repository);
-  final deleteMovieModel = _createDeleteMovieModel(_repository);
 
   return [
 
-    TypedMiddleware<AppState, GetMovieModelAction>(getMovieModel),
     TypedMiddleware<AppState, GetMovieModelsAction>(getMovieModels),
-    TypedMiddleware<AppState, CreateMovieModelAction>(createMovieModel),
-    TypedMiddleware<AppState, UpdateMovieModelAction>(updateMovieModel),
-    TypedMiddleware<AppState, DeleteMovieModelAction>(deleteMovieModel),
+
   ];
 }
 
-
-Middleware<AppState> _createGetMovieModel(
-    MovieModelRepository repository) {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    if (action.id == null) {
-      idEmpty(next, action);
-    } else {
-      running(next, action);
-      repository.getMovieModel(action.id).then((item) {
-        next(SyncMovieModelAction(moviemodel: item));
-        completed(next, action);
-      }).catchError((error) {
-        catchError(next, action, error);
-      });
-    }
-  };
-}
 
 Middleware<AppState> _createGetMovieModels(
     MovieModelRepository repository) {
@@ -59,7 +35,7 @@ Middleware<AppState> _createGetMovieModels(
       }
     }
     repository
-        .getMovieModelsList(store.state.moviemodelState.page.currPage)
+        .getNowMovieModelsList(store.state.moviemodelState.page.currPage,action.type)
         .then((map) {
       if (map.isNotEmpty) {
         print("data deliver");
@@ -74,8 +50,8 @@ Middleware<AppState> _createGetMovieModels(
        // var map1=Map.fromIterable(l,key: (v)=>v[0],value:(v)=> v[1]);
         List<MovieModel> list = l.map<MovieModel>((item) => new MovieModel.fromJson(item)).toList();
 
-        //print(list.length);
-        next(SyncMovieModelsAction(page: page, moviemodels: list));
+        print(list.length);
+        next(SyncMovieModelsAction(page: page, moviemodels: list,type: action.type));
       }
       completed(next, action);
     }).catchError((error) {
@@ -86,44 +62,10 @@ Middleware<AppState> _createGetMovieModels(
 }
 
 
-Middleware<AppState> _createCreateMovieModel(
-    MovieModelRepository repository) {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    running(next, action);
-    repository.createMovieModel(action.moviemodel).then((item) {
-      next(SyncMovieModelAction(moviemodel: item));
-      completed(next, action);
-    }).catchError((error) {
-      catchError(next, action, error);
-    });
-  };
-}
 
-Middleware<AppState> _createUpdateMovieModel(
-    MovieModelRepository repository) {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    running(next, action);
-    repository.updateMovieModel(action.moviemodel).then((item) {
-      next(SyncMovieModelAction(moviemodel: item));
-      completed(next, action);
-    }).catchError((error) {
-      catchError(next, action, error);
-    });
-  };
-}
 
-Middleware<AppState> _createDeleteMovieModel(
-    MovieModelRepository repository) {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    running(next, action);
-    repository.deleteMovieModel(action.moviemodel.id).then((item) {
-      next(RemoveMovieModelAction(id: action.moviemodel.id));
-      completed(next, action);
-    }).catchError((error) {
-      catchError(next, action, error);
-    });
-  };
-}
+
+
 
 
 void catchError(NextDispatcher next, action, error) {

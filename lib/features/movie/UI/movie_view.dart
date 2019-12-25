@@ -1,49 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:movie_app/features/movie/UI/movie_details.dart';
 import 'package:movie_app/features/movie/movie_view_model.dart';
-import 'package:movie_app/features/now%20playin/now%20playin_view.dart';
-import 'package:movie_app/redux/app/app_state.dart';
 import 'popular.dart';
-import 'package:movie_app/features/topRated/topRared_view.dart';
-import 'package:movie_app/features/upComing/upComing_view.dart';
+import 'package:movie_app/data/model/moviemodel_data.dart';
 
-class MovieView extends StatelessWidget {
-  MovieView({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, MovieViewModel>(
-      distinct: true,
-      converter: (store) => MovieViewModel.fromStore(store),
-      builder: (context, viewModel) =>
-          MovieViewContent(
-            viewModel: viewModel,
-          ),
-    );
-  }
-}
-
-class MovieViewContent extends StatefulWidget {
+class MovieView extends StatefulWidget {
   final MovieViewModel viewModel;
 
-  MovieViewContent({Key key, this.viewModel}) : super(key: key);
+  MovieView({Key key, this.viewModel}) : super(key: key);
 
   @override
   _MovieViewContentState createState() => _MovieViewContentState();
 }
 
-const double _fabHalfSize = 28.0;
-
-class _MovieViewContentState extends State<MovieViewContent>
+class _MovieViewContentState extends State<MovieView>
     with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final double _appBarHeight = 256.0;
 
-  ScrollController _scrollController = new ScrollController();
   TabController _tabController;
 
   bool isLoading = false;
@@ -51,29 +27,11 @@ class _MovieViewContentState extends State<MovieViewContent>
   @override
   void initState() {
     _tabController = new TabController(length: 4, vsync: this);
-    this.widget.viewModel.getMovieModels(true);
     super.initState();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        this.widget.viewModel.getMovieModels(false);
-        setState(() {
-          isLoading = true;
-        });
-      }
-    });
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(MovieViewContent oldWidget) {
+  void didUpdateWidget(MovieView oldWidget) {
     super.didUpdateWidget(oldWidget);
     Future.delayed(Duration.zero, () {});
   }
@@ -86,40 +44,39 @@ class _MovieViewContentState extends State<MovieViewContent>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Movie app"),
-          leading: Icon(Icons.home, color: Colors.white,),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: 'Popular'),
-              Tab(text: 'Now playing'),
-              Tab(text: 'top rated'),
-              Tab(text: 'Upcoming'),
-            ],
-
-            controller: _tabController,
-            indicatorColor: Colors.amber,
-            unselectedLabelColor: Colors.white,
-            labelColor: Colors.amber,
-            indicatorSize: TabBarIndicatorSize.tab,
-          ),
-          bottomOpacity: 1,
+      appBar: AppBar(
+        title: Text("Movie app"),
+        leading: Icon(
+          Icons.home,
+          color: Colors.white,
         ),
-        key: _scaffoldKey,
-        body: TabBarView(
-          children: <Widget>[
-            Popular(),
-            nowplayinView(),
-            TopRatedView(),
-            UpComingView(),
+        bottom: TabBar(
+          tabs: [
+            Tab(text: 'Popular'),
+            Tab(text: 'Now playing'),
+            Tab(text: 'top rated'),
+            Tab(text: 'Upcoming'),
           ],
           controller: _tabController,
-        )
+          indicatorColor: Colors.amber,
+          unselectedLabelColor: Colors.white,
+          labelColor: Colors.amber,
+          indicatorSize: TabBarIndicatorSize.tab,
+        ),
+        bottomOpacity: 1,
+      ),
+      key: _scaffoldKey,
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          Popular(type: describeEnum(MovieType.popular)),
+          Popular(type: describeEnum(MovieType.now_playing)),
+          Popular(type: describeEnum(MovieType.top_rated)),
+          Popular(type: describeEnum(MovieType.upcoming)),
+        ],
+      ),
+
       //buildCustomScrollView(),
     );
   }
-
 }
-
-
-

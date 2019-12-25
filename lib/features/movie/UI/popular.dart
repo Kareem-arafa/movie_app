@@ -4,19 +4,20 @@ import 'package:movie_app/features/movie/movie_view_model.dart';
 import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 
-import 'movie_details.dart';
 
 class Popular extends StatelessWidget {
-  Popular({Key key}) : super(key: key);
+  final String type;
+  Popular({Key key,this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MovieViewModel>(
       distinct: true,
-      converter: (store) => MovieViewModel.fromStore(store),
+      converter: (store) => MovieViewModel.fromStore(store,type),
       builder: (context, viewModel) =>
           PopularMovie(
             viewModel: viewModel,
+
           ),
     );
   }
@@ -65,8 +66,7 @@ class _PopularMovieState extends State<PopularMovie> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
+  void dispose() {    // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
   }

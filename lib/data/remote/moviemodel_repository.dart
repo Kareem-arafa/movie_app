@@ -17,9 +17,9 @@ class MovieModelRepository {
    //   return results;
     });
   }
-  Future<Map> getNowMovieModelsList(int page) {
-
-    return  new NetworkCommon().dio.get("now_playing", queryParameters: {
+  Future<Map> getNowMovieModelsList(int page, String type) {
+    print(type);
+    return  new NetworkCommon().dio.get(type, queryParameters: {
       "page": page,
       "api_key": _apiKey,
     }).then((d) {
