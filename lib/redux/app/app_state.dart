@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
 import 'package:movie_app/redux/cast/cast_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
+import 'package:movie_app/redux/review/review_state.dart';
 import 'package:movie_app/redux/trailer/trailer_state.dart';
 
 /// manage all state of this project
@@ -10,12 +10,13 @@ import 'package:movie_app/redux/trailer/trailer_state.dart';
 /// configure the initialize of state
 class AppState {
   final MovieModelState moviemodelState;
-
+  final ReviewState reviewState;
   final MovieDetailsState movieDetailsState;
   final TrailerState trailerState;
   final CastState castState;
 
   AppState({
+    @required this.reviewState,
     @required this.castState,
     @required this.trailerState,
     @required this.moviemodelState,
@@ -34,7 +35,6 @@ class AppState {
         status: Map(),
         detailsModel: null,
         detailsModels: Map(),
-        page: Page(),
       ),
       trailerState: TrailerState(
         trailers: Map(),
@@ -45,6 +45,11 @@ class AppState {
         casts: Map(),
         castModel: null,
         status: Map(),
+      ),
+      reviewState: ReviewState(
+        reviewModel: null,
+        status: Map(),
+        reviews: Map(),
       ),
     );
   }
