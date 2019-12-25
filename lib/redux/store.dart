@@ -1,5 +1,6 @@
-import 'package:logging/logging.dart';
+import 'dart:async';
 
+import 'package:logging/logging.dart';
 import 'package:movie_app/redux/app/app_reducer.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_middleware.dart';

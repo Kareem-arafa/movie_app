@@ -20,7 +20,7 @@ class MovieModelStatusAction {
 
 class SyncMovieModelsAction {
   final String actionName = "SyncMovieModelsAction";
-  final Page page;
+  final Map<String,Page> page;
   final List<MovieModel> moviemodels;
   final String type;
 

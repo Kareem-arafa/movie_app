@@ -25,17 +25,17 @@ Middleware<AppState> _createGetMovieModels(
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     running(next, action);
     if (action.isRefresh) {
-      store.state.moviemodelState.page.currPage = 1;
+      store.state.moviemodelState?.page[action.type]?.currPage??=1;
       store.state.moviemodelState.moviemodels.clear();
     } else {
-      var p = ++store.state.moviemodelState.page.currPage;
-      if (p > ++store.state.moviemodelState.page.totalPage) {
+      var p = ++store.state.moviemodelState.page[action.type].currPage;
+      if (p > ++store.state.moviemodelState.page[action.type].totalPage) {
         noMoreItem(next, action);
         return;
       }
     }
     repository
-        .getNowMovieModelsList(store.state.moviemodelState.page.currPage,action.type)
+        .getNowMovieModelsList(store.state.moviemodelState?.page[action.type]?.currPage??1,action.type)
         .then((map) {
       if (map.isNotEmpty) {
         print("data deliver");
@@ -43,6 +43,7 @@ Middleware<AppState> _createGetMovieModels(
             currPage: map["page"],
             totalPage: map["total_pages"],
             totalCount: map["total_results"]);
+        Map<String,Page> pageMap= {action.type:page};
         print(page.currPage.toString());
 
         List l = map["results"] ?? List();
@@ -51,7 +52,7 @@ Middleware<AppState> _createGetMovieModels(
         List<MovieModel> list = l.map<MovieModel>((item) => new MovieModel.fromJson(item)).toList();
 
         print(list.length);
-        next(SyncMovieModelsAction(page: page, moviemodels: list,type: action.type));
+        next(SyncMovieModelsAction(page: pageMap, moviemodels: list,type: action.type));
       }
       completed(next, action);
     }).catchError((error) {

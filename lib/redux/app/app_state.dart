@@ -28,7 +28,7 @@ class AppState {
         moviemodel: null,
         moviemodels: Map(),
         status: Map(),
-        page: Page(),
+        page: Map(),
       ),
       movieDetailsState: MovieDetailsState(
         status: Map(),

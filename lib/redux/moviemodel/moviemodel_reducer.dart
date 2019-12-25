@@ -1,3 +1,4 @@
+import 'package:movie_app/data/model/page_data.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_actions.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:redux/redux.dart';
@@ -18,14 +19,15 @@ MovieModelState _moviemodelStatus(
 MovieModelState _syncMovieModels(
     MovieModelState state, SyncMovieModelsAction action) {
   state.moviemodels.putIfAbsent(action.type, () => Map());
+  state.page.putIfAbsent(action.type, () => Page());
   for (var moviemodel in action.moviemodels) {
     state.moviemodels[action.type].update(
         moviemodel.id.toString(), (v) => moviemodel,
         ifAbsent: () => moviemodel);
   }
-  state.page.currPage = action.page.currPage;
-  state.page.pageSize = action.page.pageSize;
-  state.page.totalCount = action.page.totalCount;
-  state.page.totalPage = action.page.totalPage;
+  state.page[action.type].currPage = action.page[action.type].currPage;
+  state.page[action.type].pageSize = action.page[action.type].pageSize;
+  state.page[action.type].totalCount = action.page[action.type].totalCount;
+  state.page[action.type].totalPage = action.page[action.type].totalPage;
   return state.copyWith(moviemodels: state.moviemodels);
 }

@@ -7,7 +7,7 @@ class MovieModelState {
   final Map<String,Map<String,MovieModel>> moviemodels;
   final MovieModel moviemodel;
   final Map<String, ActionReport> status;
-  final Page page;
+  final Map<String,Page> page;
 
 
   MovieModelState({
@@ -22,13 +22,13 @@ class MovieModelState {
     final Map<String,Map<String,MovieModel>> moviemodels,
     MovieModel moviemodel,
     Map<String, ActionReport> status,
-    Page page,
+    Map<String,Page> page,
   }) {
     return MovieModelState(
       moviemodels: moviemodels ?? this.moviemodels ?? Map(),
       moviemodel: moviemodel ?? this.moviemodel,
       status: status ?? this.status,
-      page: page ?? this.page,
+      page: page ?? this.page??Map(),
     );
   }
 }
