@@ -53,13 +53,6 @@ class MovieModelRepository {
     });
   }
 
-  Future<int> deleteMovieModel(int id) {
-    return new NetworkCommon().dio.delete("moviemodel/", queryParameters: {"id": id}).then((d) {
-      var results = new NetworkCommon().decodeResp(d);
-
-      return 0;
-    });
-  }
 
   Future<MovieModel> getMovieModel(int id) {
     return new NetworkCommon().dio.get("moviemodel/", queryParameters: {"id": id}).then((d) {

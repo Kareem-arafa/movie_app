@@ -5,9 +5,9 @@ import 'package:movie_app/features/movieDetails/movieDetails_view.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 
 
-class Popular extends StatelessWidget {
+class MovieScreen extends StatelessWidget {
   final String type;
-  Popular({Key key,this.type}) : super(key: key);
+  MovieScreen({Key key,this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +90,6 @@ class _PopularMovieState extends State<PopularMovie> {
                 fit: BoxFit.fill,
               ),
               onTap: () {
-                String dropDown;
-                this
-                    .widget
-                    .viewModel
-                    .moviemodels[index]
-                    .backdropPath == null
-                    ?
-                dropDown = this
-                    .widget
-                    .viewModel
-                    .moviemodels[index]
-                    .posterPath
-                    : dropDown = this.widget.viewModel.moviemodels[index].backdropPath;
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return MovieDetailsView(id:this.widget.viewModel.moviemodels[index].id);
                 }));

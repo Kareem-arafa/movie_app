@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:movie_app/data/model/trailler_data.dart';
-
 import '../network_common.dart';
 
 class TrailersRepository {

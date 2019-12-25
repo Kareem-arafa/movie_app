@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:movie_app/data/model/reviwews_data.dart';
-import 'package:movie_app/redux/review/review_action.dart';
-
 import '../network_common.dart';
 
 class ReviewsRepository {

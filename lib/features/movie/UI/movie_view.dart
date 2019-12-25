@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/movie/movie_view_model.dart';
-import 'popular.dart';
+import 'movieScreen.dart';
 import 'package:movie_app/data/model/moviemodel_data.dart';
 
 class MovieView extends StatefulWidget {
@@ -69,10 +69,10 @@ class _MovieViewContentState extends State<MovieView>
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          Popular(type: describeEnum(MovieType.popular)),
-          Popular(type: describeEnum(MovieType.now_playing)),
-          Popular(type: describeEnum(MovieType.top_rated)),
-          Popular(type: describeEnum(MovieType.upcoming)),
+          MovieScreen(type: describeEnum(MovieType.popular)),
+          MovieScreen(type: describeEnum(MovieType.now_playing)),
+          MovieScreen(type: describeEnum(MovieType.top_rated)),
+          MovieScreen(type: describeEnum(MovieType.upcoming)),
         ],
       ),
 

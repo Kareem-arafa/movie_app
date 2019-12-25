@@ -4,7 +4,6 @@ import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_actions.dart';
 import 'package:movie_app/data/model/moviemodel_data.dart';
 import 'package:movie_app/data/remote/moviemodel_repository.dart';
-import 'package:movie_app/redux/moviemodel/moviemodel_actions.dart';
 import 'package:movie_app/data/model/page_data.dart';
 
 List<Middleware<AppState>> createMovieModelMiddleware([
