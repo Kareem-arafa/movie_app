@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:movie_app/data/model/movieDetails_data.dart' as prefix;
 
 
 import 'package:redux/redux.dart';
@@ -8,8 +11,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movie_app/redux/app/app_state.dart';
 import 'package:movie_app/redux/store.dart';
 import 'package:movie_app/features/movie/UI/movie_view.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:movie_app/features/favorite/favorite_screen.dart';
 
 Future<Null> main() async {
+   final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDirectory.path);
+  print(appDocumentDirectory.path.toString());
+  Hive.registerAdapter(prefix.DetailsAdapter(), 0);
   var store = await createStore();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -32,6 +41,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    Hive.openBox(
+      'favoriteMovie',
+    );
+    print(Hive.path);
   }
 
   @override
@@ -70,6 +83,7 @@ class _MyAppState extends State<MyApp> {
     return <String, WidgetBuilder>{
 
       "/": (_) => new MovieView(),
+      'Favorite' : (context)=> FavoriteMovies(),
     };
   }
 }

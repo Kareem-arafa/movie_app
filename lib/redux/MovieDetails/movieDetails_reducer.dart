@@ -15,7 +15,7 @@ MovieDetailsState _movieDetailsStatus(MovieDetailsState state, MovieDetailsStatu
 }
 
 MovieDetailsState _syncMovieDetails(MovieDetailsState state, SyncMovieDetailsAction action) {
-  state.detailsModels.update(action.detailsModel.id.toString(), (u) => action.detailsModel,
+  state.detailsModels.update(action.detailsModel.Id.toString(), (u) => action.detailsModel,
       ifAbsent: () => action.detailsModel);
   return state.copyWith(detailsModels: state.detailsModels, detailsModel: action.detailsModel);
 }

@@ -21,7 +21,7 @@ class MovieModelRepository {
     print(type);
     return  new NetworkCommon().dio.get(type, queryParameters: {
       "page": page,
-      "api_key": _apiKey,
+     "api_key": _apiKey,
     }).then((d) {
       print(d.toString());
       return new NetworkCommon().decodeResp(d) as Map;

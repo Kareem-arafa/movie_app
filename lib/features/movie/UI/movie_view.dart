@@ -46,6 +46,14 @@ class _MovieViewContentState extends State<MovieView>
     return Scaffold(
       appBar: AppBar(
         title: Text("Movie app"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Favorite'),
+            onPressed: (){
+              Navigator.pushNamed(context,'Favorite');
+            },
+          )
+        ],
         leading: Icon(
           Icons.home,
           color: Colors.white,

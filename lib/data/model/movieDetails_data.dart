@@ -1,46 +1,59 @@
+import 'package:hive/hive.dart';
+
+part 'movieAdapter.dart';
+
+@HiveType()
 class DetailsModel {
-  String _overview;
-  String _title;
-  List<_Genres> _genres;
-  String _posterPath;
-  String _backdropPath;
-  String _releaseDate;
-  num _voteAverage;
-  int _id;
+  @HiveField(0)
+  String Overview;
+  @HiveField(1)
+  String Title;
+  List<_Genres> Genres;
+  @HiveField(3)
+  String PosterPath;
+  @HiveField(4)
+  String BackdropPath;
+  @HiveField(5)
+  String ReleaseDate;
+  @HiveField(6)
+  num VoteAverage;
+  @HiveField(7)
+  int Id;
+
+  DetailsModel.details();
+
+  DetailsModel({
+    this.BackdropPath,
+    this.Id,
+    this.Overview,
+    this.PosterPath,
+    this.ReleaseDate,
+    this.Title,
+    this.VoteAverage,
+  });
 
   DetailsModel.fromJSON(Map<String, dynamic> parsedJson) {
-    _id = parsedJson['id']??0;
-    _voteAverage = parsedJson['vote_average']??0.0;
-    _releaseDate = parsedJson['release_date']??"";
-    _backdropPath = parsedJson['backdrop_path']??'';
-    _posterPath = parsedJson['poster_path']??'';
-    _title = parsedJson['title']??'';
-    _overview = parsedJson['overview']??'';
+    Id = parsedJson['id'] ?? 0;
+    VoteAverage = parsedJson['vote_average'] ?? 0.0;
+    ReleaseDate = parsedJson['release_date'] ?? "";
+    BackdropPath = parsedJson['backdrop_path'] ?? '';
+    PosterPath = parsedJson['poster_path'] ?? '';
+    Title = parsedJson['title'] ?? '';
+    Overview = parsedJson['overview'] ?? '';
     List<_Genres> temp = [];
 
     for (int i = 0; i < parsedJson['genres'].length; i++) {
       _Genres result = _Genres(parsedJson['genres'][i]);
       temp.add(result);
     }
-
-    _genres = temp??[];
+    Genres = temp;
   }
 
-  String get overview => _overview;
-
-  String get title => _title;
-
-  String get posterPath => _posterPath;
-
-  String get backdropPath => _backdropPath;
-
-  String get releaseDate => _releaseDate;
-
-  num get voteAverage => _voteAverage;
-
-  List<_Genres> get genres => _genres;
-
-  int get id => _id;
+  void addFavorite(DetailsModel detailsModel) {
+    final favoriteBox = Hive.box('favoriteMovie');
+    favoriteBox.add(detailsModel);
+  }
+//   Genres = parsedJson['genres']==null? []:parsedJson['genres'].cast<_Genres>().toList();
 }
 
 class _Genres {

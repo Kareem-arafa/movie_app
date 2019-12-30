@@ -36,11 +36,15 @@ dependencies:
   flutter_custom_tabs: ^0.6.0
   common_utils: 1.1.1
   enum_to_string: ^1.0.8
+  hive: ^1.0.0
+  hive_flutter: ^0.2.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^0.5.1
+  build_runner:
 
 
 # For information on the generic Dart part of this file, see the

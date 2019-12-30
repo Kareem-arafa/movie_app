@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movie_app/redux/app/app_state.dart';
-
+import 'package:movie_app/data/model/movieDetails_data.dart';
 import 'movieDetails_view_model.dart';
 
 class MovieDetailsView extends StatelessWidget {
@@ -24,6 +24,7 @@ class MovieDetailsView extends StatelessWidget {
 class DetailScreen extends StatefulWidget {
   final MovieDetailsViewModel viewModel;
   final int id;
+  int loveState=0;
 
   DetailScreen(this.viewModel, this.id);
 
@@ -52,7 +53,7 @@ class _DetailScreenState extends State<DetailScreen> {
         Stack(
           children: <Widget>[
             Container(
-              height: 390,
+              height: 375,
               width: double.infinity,
             ),
             Container(
@@ -61,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
               decoration: BoxDecoration(
                 image: new DecorationImage(
                   image: new NetworkImage(
-                      'https://image.tmdb.org/t/p/w500${this.widget.viewModel.detailsModel.backdropPath}'),
+                      'https://image.tmdb.org/t/p/w500${this.widget.viewModel.detailsModel.BackdropPath}'),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -80,6 +81,29 @@ class _DetailScreenState extends State<DetailScreen> {
                 },
                 color: Colors.white,
               ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                  icon: widget.loveState == 0
+                      ? Icon(
+                    Icons.favorite_border,
+                    size: 30.0,
+                  )
+                      : Icon(Icons.favorite,
+                      size: 30.0, color: Colors.red),
+                  onPressed: () {
+                    if (widget.loveState == 0) {
+                      DetailsModel.details().addFavorite(this.widget.viewModel.detailsModel);
+                      setState(() {
+                        widget.loveState = 1;
+                      });
+                    } else {
+                      setState(() {
+                        widget.loveState = 0;
+                      });
+                    }
+                  }),
             ),
             Positioned(
               top: 75,
@@ -118,7 +142,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     borderRadius: BorderRadius.circular(7.0),
                     image: new DecorationImage(
                       image: new NetworkImage(
-                          'https://image.tmdb.org/t/p/w500${this.widget.viewModel.detailsModel.posterPath}'),
+                          'https://image.tmdb.org/t/p/w500${this.widget.viewModel.detailsModel.PosterPath}'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -132,13 +156,10 @@ class _DetailScreenState extends State<DetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    height: 10.0,
-                  ),
                   Container(
                     width: MediaQuery.of(context).size.width - 165,
                     child: Text(
-                      this.widget.viewModel.detailsModel.title,
+                      this.widget.viewModel.detailsModel.Title,
                       style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.amber,
@@ -153,7 +174,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(this.widget.viewModel.detailsModel.releaseDate,
+                          Text(this.widget.viewModel.detailsModel.ReleaseDate,
                               style: TextStyle(
                                 fontSize: 18.0,
                               )),
@@ -174,7 +195,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     .widget
                                     .viewModel
                                     .detailsModel
-                                    .voteAverage
+                                    .VoteAverage
                                     .toString(),
                                 style: TextStyle(
                                   fontSize: 18.0,
@@ -184,9 +205,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 50,
-                      ),
+
                       MaterialButton(
                         elevation: 2.0,
                         shape: RoundedRectangleBorder(
@@ -209,7 +228,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             .widget
                             .viewModel
                             .detailsModel
-                            .genres
+                            .Genres
                             .map((gen) => gen.name)
                             .join(' - '),
                         style: TextStyle(
@@ -237,9 +256,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                   Container(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width-105,
                     child: Text(
-                      this.widget.viewModel.detailsModel.overview,
+                      this.widget.viewModel.detailsModel.Overview,
                       style: TextStyle(
                           color: Colors.grey, fontWeight: FontWeight.bold),
                     ),
@@ -250,7 +269,7 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 8.0),
+          padding: const EdgeInsets.only(left: 30.0, right: 30.0),
           child: Container(
             child: Divider(
               color: Colors.grey,
@@ -332,7 +351,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               image: new DecorationImage(
                                   fit: BoxFit.fill,
                                   image: new NetworkImage(
-                                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${this.widget.viewModel.detailsModel.posterPath}")),
+                                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${this.widget.viewModel.detailsModel.PosterPath}")),
                             ),
                             margin: const EdgeInsets.symmetric(horizontal: 8.0),
                           ),
@@ -340,12 +359,15 @@ class _DetailScreenState extends State<DetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               //title
-                              Text(
-                                this.widget.viewModel.detailsModel.title,
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold),
+                              Container(
+                                width: MediaQuery.of(context).size.width-124,
+                                child: Text(
+                                  this.widget.viewModel.detailsModel.Title,
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.amber,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                               //written
                               Padding(
