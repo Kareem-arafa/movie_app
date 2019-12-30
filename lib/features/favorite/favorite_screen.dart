@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/data/model/movieDetails_data.dart';
+import 'package:movie_app/redux/app/app_state.dart';
+
+import 'favorite_view_model.dart';
+
+class Favorite extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, FavoriteViewModel>(
+      distinct: true,
+      converter: (store) => FavoriteViewModel.fromStore(store),
+      builder: (_, viewModel) => FavoriteMovies(viewModel: viewModel),
+    );
+  }
+}
 
 class FavoriteMovies extends StatefulWidget {
+  final FavoriteViewModel viewModel;
+
+  FavoriteMovies({this.viewModel});
+
   @override
   _FavoriteMoviesState createState() => _FavoriteMoviesState();
 }
 
 class _FavoriteMoviesState extends State<FavoriteMovies> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.widget.viewModel.getFavorite();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,9 +44,14 @@ class _FavoriteMoviesState extends State<FavoriteMovies> {
             onPressed: () => Navigator.pop(context)),
       ),
       body: SafeArea(
-          child: WatchBoxBuilder(
-              box: Hive.box('favoriteMovie'),
-              builder: (context, snapshot) {
+        child: WatchBoxBuilder(
+            box: this.widget.viewModel.favorites,
+            builder: (context, snapshot) {
+              if (snapshot.length == 0) {
+                return Center(child: Text('no movie to show'));
+              } else if (snapshot.isEmpty) {
+                return CircularProgressIndicator();
+              } else {
                 return ListView.builder(
                   itemCount: snapshot.length,
                   itemBuilder: (context, index) {
@@ -153,7 +183,7 @@ class _FavoriteMoviesState extends State<FavoriteMovies> {
                               child: Icon(Icons.delete),
                               color: Colors.amber,
                               onPressed: () {
-                                snapshot.deleteAt(index);
+                                this.widget.viewModel.removeFavorite(index);
                               },
                             ),
                           )
@@ -162,7 +192,9 @@ class _FavoriteMoviesState extends State<FavoriteMovies> {
                     ));
                   },
                 );
-              })),
+              }
+            }),
+      ),
     );
   }
 }

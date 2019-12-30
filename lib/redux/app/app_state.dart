@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:movie_app/redux/MovieDetails/movieDetails_state.dart';
 import 'package:movie_app/redux/cast/cast_state.dart';
+import 'package:movie_app/redux/favorite/favorite_state.dart';
 import 'package:movie_app/redux/moviemodel/moviemodel_state.dart';
 import 'package:movie_app/redux/review/review_state.dart';
 import 'package:movie_app/redux/trailer/trailer_state.dart';
@@ -14,6 +15,7 @@ class AppState {
   final MovieDetailsState movieDetailsState;
   final TrailerState trailerState;
   final CastState castState;
+  final FavoriteState favoriteState;
 
   AppState({
     @required this.reviewState,
@@ -21,6 +23,7 @@ class AppState {
     @required this.trailerState,
     @required this.moviemodelState,
     @required this.movieDetailsState,
+    @required this.favoriteState,
   });
 
   factory AppState.initial() {
@@ -50,6 +53,10 @@ class AppState {
         reviewModel: null,
         status: Map(),
         reviews: Map(),
+      ),
+      favoriteState: FavoriteState(
+        status: Map(),
+        favorite: null,
       ),
     );
   }

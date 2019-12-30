@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movie_app/redux/app/app_state.dart';
-import 'package:movie_app/data/model/movieDetails_data.dart';
 import 'movieDetails_view_model.dart';
-
+import 'add_favorite.dart';
 class MovieDetailsView extends StatelessWidget {
   final int id;
 
@@ -24,7 +23,6 @@ class MovieDetailsView extends StatelessWidget {
 class DetailScreen extends StatefulWidget {
   final MovieDetailsViewModel viewModel;
   final int id;
-  int loveState=0;
 
   DetailScreen(this.viewModel, this.id);
 
@@ -47,7 +45,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: Column(
+            child: this.widget.viewModel.detailsModel.BackdropPath==""?Center(child: CircularProgressIndicator(),):Column(
       //  mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Stack(
@@ -82,29 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 color: Colors.white,
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  icon: widget.loveState == 0
-                      ? Icon(
-                    Icons.favorite_border,
-                    size: 30.0,
-                  )
-                      : Icon(Icons.favorite,
-                      size: 30.0, color: Colors.red),
-                  onPressed: () {
-                    if (widget.loveState == 0) {
-                      DetailsModel.details().addFavorite(this.widget.viewModel.detailsModel);
-                      setState(() {
-                        widget.loveState = 1;
-                      });
-                    } else {
-                      setState(() {
-                        widget.loveState = 0;
-                      });
-                    }
-                  }),
-            ),
+         AddFavorite(detailsModel: this.widget.viewModel.detailsModel),
             Positioned(
               top: 75,
               right: (MediaQuery.of(context).size.width / 2) - 25,
@@ -324,8 +300,9 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         )
       ],
-    )));
+    )),);
   }
+
 
   void _reviewModelSheet(context) {
     showModalBottomSheet(

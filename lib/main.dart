@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
     return <String, WidgetBuilder>{
 
       "/": (_) => new MovieView(),
-      'Favorite' : (context)=> FavoriteMovies(),
+      'Favorite' : (context)=> Favorite(),
     };
   }
 }

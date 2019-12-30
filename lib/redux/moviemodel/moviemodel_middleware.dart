@@ -41,7 +41,7 @@ Middleware<AppState> _createGetMovieModels(
         var page = Page(
             currPage: map["page"],
             totalPage: map["total_pages"],
-            totalCount: map["total_results"]);
+            totalCount: map["total_results"],);
         Map<String,Page> pageMap= {action.type:page};
         print(page.currPage.toString());
 
@@ -54,19 +54,13 @@ Middleware<AppState> _createGetMovieModels(
         next(SyncMovieModelsAction(page: pageMap, moviemodels: list,type: action.type));
       }
       completed(next, action);
-    }).catchError((error) {
+    }
+    ).catchError((error) {
       print(error);
       catchError(next, action, error);
     });
   };
 }
-
-
-
-
-
-
-
 
 void catchError(NextDispatcher next, action, error) {
   next(MovieModelStatusAction(

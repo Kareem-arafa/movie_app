@@ -49,10 +49,7 @@ class DetailsModel {
     Genres = temp;
   }
 
-  void addFavorite(DetailsModel detailsModel) {
-    final favoriteBox = Hive.box('favoriteMovie');
-    favoriteBox.add(detailsModel);
-  }
+
 //   Genres = parsedJson['genres']==null? []:parsedJson['genres'].cast<_Genres>().toList();
 }
 
