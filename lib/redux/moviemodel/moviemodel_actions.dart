@@ -23,8 +23,8 @@ class SyncMovieModelsAction {
   final Map<String,Page> page;
   final List<MovieModel> moviemodels;
   final String type;
-
-  SyncMovieModelsAction({this.page, this.moviemodels,this.type});
+  final bool loading;
+  SyncMovieModelsAction({this.page, this.moviemodels,this.type,this.loading});
 }
 
 

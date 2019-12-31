@@ -25,10 +25,15 @@ class AppState {
     @required this.movieDetailsState,
     @required this.favoriteState,
   });
+    factory AppState.isLoading(){
+
+    return AppState.isLoading();
+  }
 
   factory AppState.initial() {
     return AppState(
       moviemodelState: MovieModelState(
+        loading: true,
         moviemodel: null,
         moviemodels: Map(),
         status: Map(),

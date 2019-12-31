@@ -51,7 +51,7 @@ Middleware<AppState> _createGetMovieModels(
         List<MovieModel> list = l.map<MovieModel>((item) => new MovieModel.fromJson(item)).toList();
 
         print(list.length);
-        next(SyncMovieModelsAction(page: pageMap, moviemodels: list,type: action.type));
+        next(SyncMovieModelsAction(page: pageMap, moviemodels: list,type: action.type,loading: false));
       }
       completed(next, action);
     }

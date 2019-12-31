@@ -25,9 +25,11 @@ MovieModelState _syncMovieModels(
         moviemodel.id.toString(), (v) => moviemodel,
         ifAbsent: () => moviemodel);
   }
+  state.loading=action.loading;
   state.page[action.type].currPage = action.page[action.type].currPage;
   state.page[action.type].pageSize = action.page[action.type].pageSize;
   state.page[action.type].totalCount = action.page[action.type].totalCount;
   state.page[action.type].totalPage = action.page[action.type].totalPage;
-  return state.copyWith(moviemodels: state.moviemodels);
+
+  return state.copyWith(moviemodels: state.moviemodels,loading: state.loading);
 }
